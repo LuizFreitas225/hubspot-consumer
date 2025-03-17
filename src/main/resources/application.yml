@@ -3,3 +3,21 @@ spring:
     name: hubspot-consumer
 
 
+oauth:
+  auth-url: ${OAUTH_AUTH_URL}
+  client-id: ${OAUTH_CLIENT_ID}
+  redirect-uri: ${OAUTH_REDIRECT_URI}
+  scopes: ${OAUTH_SCOPES}
+  client-secret: ${OAUTH_CLIENT_SECRET}
+  token-url: ${OAUTH_TOKEN_URL}
+
+
+
+
+#oauth:
+#  auth-url: https://app.hubspot.com/oauth/authorize
+#  client-id: c3688f97-d2af-4871-8814-fe9799f57a56
+#  redirect-uri: http://localhost:8080/oauth/callback
+#  scopes: crm.objects.contacts.write oauth crm.objects.contacts.read
+#  client-secret: 827e1c29-17b6-4c8b-b0f2-42ff07655977
+#  token-url: https://api.hubapi.com/oauth/v1/token

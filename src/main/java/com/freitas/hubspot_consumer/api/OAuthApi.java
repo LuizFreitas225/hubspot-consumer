@@ -1,56 +1,37 @@
 package com.freitas.hubspot_consumer.api;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpMethod;
+import com.freitas.hubspot_consumer.service.AuthorizationService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.net.URI;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/oauth")
+@Slf4j
 public class OAuthApi {
-
-    private final String authUrl = "https://app.hubspot.com/oauth/authorize";
-    private final String clientId = "c3688f97-d2af-4871-8814-fe9799f57a56";
-    private final String redirectUri = "http://localhost:8080/oauth/callback";
-    private final String scopes = "crm.objects.contacts.write%20oauth%20crm.objects.contacts.read";
-    private final String clientSecret = "827e1c29-17b6-4c8b-b0f2-42ff07655977";
-
-    private final String tokenUrl = "https://api.hubapi.com/oauth/v1/token";
+    private final AuthorizationService authorizationService;
 
     @GetMapping("/authorize")
     public ResponseEntity<Void> generateAuthUrl() {
-        String url = UriComponentsBuilder.fromHttpUrl(authUrl)
-                .queryParam("client_id", clientId)
-                .queryParam("redirect_uri", redirectUri)
-                .queryParam("scope", scopes)
-                .queryParam("response_type", "code")
-                .toUriString();
-
+        log.info("OAuthApi.generateAuthUrl - start");
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(url))
+                .location(URI.create(authorizationService.generateAuthorizeUrl()))
                 .build();
     }
 
     @GetMapping("/callback")
     public ResponseEntity<Void> callback(@RequestParam String code) {
-        String url = UriComponentsBuilder.fromHttpUrl(tokenUrl)
-                .queryParam("grant_type", "authorization_code")
-                .queryParam("client_id", clientId)
-                .queryParam("client_secret", clientSecret)
-                .queryParam("redirect_uri", redirectUri)
-                .queryParam("scope", scopes)
-                .queryParam("code", code)
-                .toUriString();
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity responseEntity = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
+        log.info("OAuthApi.callback - start");
+        authorizationService.callback(code);
+        log.info("OAuthApi.callback - end");
         return ResponseEntity.ok().build();
     }
 }
