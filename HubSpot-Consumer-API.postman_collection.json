@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "989ffaf2-2cd3-4421-96ba-f6863294cc44",
+		"name": "HubSpot-Consumer-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19407716"
+	},
+	"item": [
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "authorize",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/oauth/authorize",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"oauth",
+								"authorize"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "contact",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>Message</th>\r",
+									"        <th>Status</th>\r",
+									"        <th>Timestamp</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{response.message}}</td>\r",
+									"        <td>{{response.status}}</td>\r",
+									"        <td>{{response.timestamp}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer CNKhqYbaMhIHAAEAQAAAARiQrc8XIKCLtCUo6YW7BDIU__qQMKTgoFy34DSJ4inMprCmS3I6MAAAAEEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAAAAOABAAAAAAAAAAAAAAAQAkIUF0hz9CVq2YR3gjwmLqBcmN1femJKA25hMVIAWgBgAGigi7QlcAA"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example13@hubspot2.com\",\r\n    \"firstname\": \"Jane\",\r\n    \"lastname\": \"Doe\",\r\n    \"phone\": \"(555) 555-5555\",\r\n    \"company\": \"HubSpot\",\r\n    \"website\": \"hubspot.com\",\r\n    \"lifecyclestage\": \"marketingqualifiedlead\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/contact",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Generated from cURL: curl --request POST \\\r\n  --url https://api.hubapi.com/crm/v3/objects/contacts \\\r\n  --header 'authorization: Bearer COXp4YTaMhIHAAEAQAAAARiQrc8XIKCLtCUo6YW7BDIUc0-t4FvxcCGzpmPnrQUHBlHHXlY6MAAAAEEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAAAAOABAAAAAAAAAAAAAAAQAkIUP_6MBRR6nH6Ilg3rHi5uJW1aQsRKA25hMVIAWgBgAGigi7QlcAA' \\\r\n  --header 'content-type: application/json' \\\r\n  --data '{\r\n  \"associations\": [\r\n    {\r\n      \"types\": [\r\n        {\r\n          \"associationCategory\": \"HUBSPOT_DEFINED\",\r\n          \"associationTypeId\": 0\r\n        }\r\n      ],\r\n      \"to\": {\r\n        \"id\": \"string\"\r\n      }\r\n    }\r\n  ],\r\n  \"objectWriteTraceId\": \"string\",\r\n  \"properties\": {\r\n    \"email\": \"mark.s@lumon.industries\",\r\n    \"lastname\": \"S.\",\r\n    \"firstname\": \"Mark\"\r\n  }\r\n}'"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
