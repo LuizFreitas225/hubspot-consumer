@@ -3,7 +3,6 @@ package com.freitas.hubspot_consumer.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Table(name = "\"contact\"")
