@@ -62,14 +62,16 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.1.214</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
-	<dependency>
-		<groupId>com.h2database</groupId>
-		<artifactId>h2</artifactId>
-		<version>2.1.214</version> <!-- Substitua pela versão mais recente se necessário -->
-		<scope>test</scope>
-	</dependency>
 
 	<build>
 		<plugins>
