@@ -3,7 +3,6 @@ package com.freitas.hubspot_consumer.exception.handler;
 import com.freitas.hubspot_consumer.exception.CallBackException;
 import com.freitas.hubspot_consumer.exception.CreateContactException;
 import com.freitas.hubspot_consumer.exception.WithoutTokenException;
-import com.freitas.hubspot_consumer.util.AuthorizationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
