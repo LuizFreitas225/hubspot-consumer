@@ -1,9 +1,7 @@
 package com.freitas.hubspot_consumer.service;
 
-import com.freitas.hubspot_consumer.dto.ContactDTO;
 import com.freitas.hubspot_consumer.dto.HubSpotToken;
 import com.freitas.hubspot_consumer.exception.CallBackException;
-import com.freitas.hubspot_consumer.exception.CreateContactException;
 import com.freitas.hubspot_consumer.exception.ExceptionMessage;
 import com.freitas.hubspot_consumer.exception.WithoutTokenException;
 import lombok.RequiredArgsConstructor;
@@ -44,16 +42,16 @@ public class AuthorizationService {
     private final RestTemplate restTemplate;
     private HubSpotToken hubSpotToken = null;
 
-    private static final String CONTACTS_URL = "https://api.hubapi.com/crm/v3/objects/contacts";
-
-
-
     public void callback(String code) {
         try {
             hubSpotToken =  restTemplate.postForObject(this.generateCallBackUrl(code), null,
                     HubSpotToken.class);
+            assert hubSpotToken != null;
+            hubSpotToken.setExpirationDate(hubSpotToken.getCreatedAt().plusSeconds(hubSpotToken.getExpiresIn()).minusMinutes(1));
+
         } catch (HttpClientErrorException e) {
             log.error("Error processing callback: {}", e.getMessage());
+
             throw new CallBackException(ExceptionMessage.FAIL_CALL_BACK,
                         HttpStatus.valueOf(e.getStatusCode().value()));
         } catch (Exception e) {

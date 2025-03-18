@@ -1,23 +1,35 @@
 spring:
   application:
     name: hubspot-consumer
-
-
-oauth:
-  auth-url: ${OAUTH_AUTH_URL}
-  client-id: ${OAUTH_CLIENT_ID}
-  redirect-uri: ${OAUTH_REDIRECT_URI}
-  scopes: ${OAUTH_SCOPES}
-  client-secret: ${OAUTH_CLIENT_SECRET}
-  token-url: ${OAUTH_TOKEN_URL}
-
-
+  datasource:
+    url: jdbc:postgresql://localhost:15432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 
 
 #oauth:
-#  auth-url: https://app.hubspot.com/oauth/authorize
-#  client-id: c3688f97-d2af-4871-8814-fe9799f57a56
-#  redirect-uri: http://localhost:8080/oauth/callback
-#  scopes: crm.objects.contacts.write oauth crm.objects.contacts.read
-#  client-secret: 827e1c29-17b6-4c8b-b0f2-42ff07655977
-#  token-url: https://api.hubapi.com/oauth/v1/token
+#  auth-url: ${OAUTH_AUTH_URL}
+#  client-id: ${OAUTH_CLIENT_ID}
+#  redirect-uri: ${OAUTH_REDIRECT_URI}
+#  scopes: ${OAUTH_SCOPES}
+#  client-secret: ${OAUTH_CLIENT_SECRET}
+#  token-url: ${OAUTH_TOKEN_URL}
+
+#Envioriment variables
+#  OAUTH_AUTH_URL=https://app.hubspot.com/oauth/authorize;
+#  OAUTH_CLIENT_ID=c3688f97-d2af-4871-8814-fe9799f57a56;
+#  OAUTH_REDIRECT_URI=http://localhost:8080/oauth/callback;
+#  OAUTH_SCOPES=crm.objects.contacts.write oauth crm.objects.contacts.read;
+#  OAUTH_CLIENT_SECRET=827e1c29-17b6-4c8b-b0f2-42ff07655977;
+#  OAUTH_TOKEN_URL=https://api.hubapi.com/oauth/v1/token
+
+oauth:
+  auth-url: https://app.hubspot.com/oauth/authorize
+  client-id: c3688f97-d2af-4871-8814-fe9799f57a56
+  redirect-uri: http://localhost:8080/oauth/callback
+  scopes: crm.objects.contacts.write oauth crm.objects.contacts.read
+  client-secret: 827e1c29-17b6-4c8b-b0f2-42ff07655977
+  token-url: https://api.hubapi.com/oauth/v1/token

@@ -10,4 +10,5 @@ public class ExceptionMessage {
     public static final String FIRSTNAME_MANDATORY = "First name is mandatory";
     public static final String LASTNAME_MANDATORY = "Last name is mandatory";
     public static final String PHONE_INVALID = "Phone number is invalid. Example: (11)999998888";
+    public static final String FAIL_RETRIEVE_CONTACT = "Failed to retrieve contact: ";
 }

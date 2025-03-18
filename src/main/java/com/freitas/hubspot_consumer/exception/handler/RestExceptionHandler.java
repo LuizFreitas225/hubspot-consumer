@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -26,14 +27,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(new ExceptionDetails(exception.getMessage(), exception.getStatus().value()),
                 exception.getStatus());
     }
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<Object> httpClientErrorException(HttpClientErrorException exception) {
+        HttpStatus status = HttpStatus.valueOf(exception.getMessage().contains("409") ? HttpStatus.CONFLICT.value() : HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(new ExceptionDetails(exception.getMessage(), status.value()), status);
+    }
 
     @ExceptionHandler(WithoutTokenException.class)
     public ResponseEntity<Object> withoutTokenException(WithoutTokenException exception) {
         log.error("Invalid or non-existent token: Status = {}, Response = {}",  exception.getStatus(), exception.getMessage());
 
-       return  ResponseEntity.status( exception.getStatus())
+        return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(exception.getLocationUrl()))
-                .body(new ExceptionDetails(exception.getMessage(), exception.getStatus().value()));
+                .build();
     }
 
     @ExceptionHandler(CreateContactException.class)

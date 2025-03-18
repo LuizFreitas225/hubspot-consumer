@@ -1,6 +1,7 @@
 package com.freitas.hubspot_consumer.api;
 
 import com.freitas.hubspot_consumer.dto.ContactDTO;
+import com.freitas.hubspot_consumer.dto.ContactWebHookDTO;
 import com.freitas.hubspot_consumer.service.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/contact")
@@ -21,18 +24,19 @@ public class ContactApi {
 
     @PostMapping
     public ResponseEntity<Void> createContact(@RequestBody @Valid ContactDTO contactDTO) {
-        log.info("ContactApi.createContact - start: {}", contactDTO);
+        log.info("ContactApi.createContact - start: {}", contactDTO.getEmail());
         contactService.createContact(contactDTO);
-        log.info("ContactApi.createContact - end");
+        log.info("ContactApi.createContact - end: {}", contactDTO.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
-//    @GetMapping("/callback")
-//    public ResponseEntity<Void> callback(@RequestParam String code) {
-//        log.info("OAuthApi.callback - start");
-//        authorizationService.callback(code);
-//        log.info("OAuthApi.callback - end");
-//        return ResponseEntity.ok().build();
-//    }
+    @PostMapping("/webhook")
+    public ResponseEntity<String> consumerWebhook(@RequestBody List<ContactWebHookDTO> contactWebHookDTOList) {
+        log.info("ContactApi.consumerWebhook: {}", contactWebHookDTOList.stream().map(ContactWebHookDTO::getAppId).toList());
+        contactService.consumerWebhook(contactWebHookDTOList);
+        log.info("ContactApi.consumerWebhook: {}", contactWebHookDTOList.stream().map(ContactWebHookDTO::getAppId).toList());
+        return ResponseEntity.ok().build();
+    }
+
 }
